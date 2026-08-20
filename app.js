@@ -35,6 +35,12 @@ function safeHttpUrl(value) {
   const url = cleanUrl(value);
   return /^https?:\/\//i.test(url) ? escapeHtml(url) : '';
 }
+function versionBadge(value) {
+  const version = normalise(value).toUpperCase();
+  if (version.includes('FR')) return '<span class="version-badge version-fr">FR</span>';
+  if (version.includes('LG')) return '<span class="version-badge version-lg">LG</span>';
+  return '';
+}
 
 function updateStats() {
   const total = state.pokemon.length;
@@ -58,6 +64,7 @@ function render() {
   });
   elements.grid.innerHTML = visible.map((item, index) => `
     <article class="pokemon-card${item.captured ? ' captured' : ''}" style="animation-delay:${Math.min(index * 25, 300)}ms">
+      ${versionBadge(item.version)}
       <div class="number">NO. ${item.number}</div>
       ${item.infoUrl ? `<a class="pokemon-link" href="${item.infoUrl}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(item.name)}の情報を開く">` : ''}
         <img class="pokemon-image" src="${safeHttpUrl(item.image)}" alt="${escapeHtml(item.name)}" loading="lazy" onerror="this.style.visibility='hidden'">
@@ -80,10 +87,12 @@ async function loadData() {
     const column = name => headers.findIndex(header => header === name);
     const noIndex = column('No'), nameIndex = column('名前'), imageIndex = column('画像'), checkIndex = column('チェック');
     const infoUrlIndex = headers.findIndex(header => ['情報URL', 'URL', '情報 url'].includes(header));
+    const versionIndex = column('バージョン');
     if ([noIndex, nameIndex, imageIndex, checkIndex].some(index => index < 0)) throw new Error('必要な列がありません');
     state.pokemon = rows.map(row => ({
       number: row[noIndex] || '', name: row[nameIndex] || 'Unknown', image: row[imageIndex] || '',
-      infoUrl: infoUrlIndex >= 0 ? safeHttpUrl(row[infoUrlIndex]) : '', captured: isCaptured(row[checkIndex])
+      infoUrl: infoUrlIndex >= 0 ? safeHttpUrl(row[infoUrlIndex]) : '',
+      version: versionIndex >= 0 ? row[versionIndex] || '' : '', captured: isCaptured(row[checkIndex])
     })).filter(item => item.number && item.name);
     updateStats(); render();
     elements.updatedAt.textContent = `最終取得 ${new Date().toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })}`;
