@@ -42,6 +42,11 @@ function versionBadge(value) {
   return '';
 }
 
+function evolutionBadge(value) {
+  const method = String(value || '').trim();
+  return method ? `<span class="evolution-badge" title="特殊進化: ${escapeHtml(method)}">${escapeHtml(method)}</span>` : '';
+}
+
 function updateStats() {
   const total = state.pokemon.length;
   const captured = state.pokemon.filter(item => item.captured).length;
@@ -71,6 +76,7 @@ function render() {
       ${item.infoUrl ? '</a>' : ''}
       <h2 class="pokemon-name">${escapeHtml(item.name)}</h2>
       <span class="status">${item.captured ? '捕獲済み' : '未捕獲'}</span>
+      ${evolutionBadge(item.specialEvolution)}
     </article>`).join('');
   elements.resultCount.textContent = `${visible.length} 匹を表示`;
   elements.empty.hidden = visible.length !== 0 || state.pokemon.length === 0;
@@ -88,11 +94,14 @@ async function loadData() {
     const noIndex = column('No'), nameIndex = column('名前'), imageIndex = column('画像'), checkIndex = column('チェック');
     const infoUrlIndex = headers.findIndex(header => ['情報URL', 'URL', '情報 url'].includes(header));
     const versionIndex = column('バージョン');
+    const specialEvolutionIndex = column('特殊進化');
     if ([noIndex, nameIndex, imageIndex, checkIndex].some(index => index < 0)) throw new Error('必要な列がありません');
     state.pokemon = rows.map(row => ({
       number: row[noIndex] || '', name: row[nameIndex] || 'Unknown', image: row[imageIndex] || '',
       infoUrl: infoUrlIndex >= 0 ? safeHttpUrl(row[infoUrlIndex]) : '',
-      version: versionIndex >= 0 ? row[versionIndex] || '' : '', captured: isCaptured(row[checkIndex])
+      version: versionIndex >= 0 ? row[versionIndex] || '' : '',
+      specialEvolution: specialEvolutionIndex >= 0 ? row[specialEvolutionIndex] || '' : '',
+      captured: isCaptured(row[checkIndex])
     })).filter(item => item.number && item.name);
     updateStats(); render();
     elements.updatedAt.textContent = `最終取得 ${new Date().toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })}`;
