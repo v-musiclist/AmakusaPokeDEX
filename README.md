@@ -4,6 +4,7 @@
 - トップページ: https://v-musiclist.github.io/AmakusaPokeDEX/
 - FRLG図鑑: https://v-musiclist.github.io/AmakusaPokeDEX/FRLG/
 - ZA図鑑: https://v-musiclist.github.io/AmakusaPokeDEX/ZA/
+- 小文字URL: `/frlg/` または `/FRLG/`、`/za/` または `/ZA/`
 
 ZA図鑑はスプレッドシートの「ミアレ」「異次元」「メガシンカ」シートを読み込みます。
 
