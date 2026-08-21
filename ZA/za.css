@@ -52,3 +52,8 @@ h1 span { display: block; color: transparent; -webkit-text-stroke: 1px #e5cfff; 
 .pokemon-grid.six-column-groups > :nth-child(30n + 31)::after, .pokemon-grid.six-column-groups > :nth-child(30n + 32)::after, .pokemon-grid.six-column-groups > :nth-child(30n + 33)::after, .pokemon-grid.six-column-groups > :nth-child(30n + 34)::after, .pokemon-grid.six-column-groups > :nth-child(30n + 35)::after, .pokemon-grid.six-column-groups > :nth-child(30n + 36)::after { content: ''; position: absolute; top: -8px; left: 0; right: 0; border-top: 3px dotted #f8d34f; }
 .pokemon-grid.six-column-groups > :nth-child(1)::after, .pokemon-grid.six-column-groups > :nth-child(2)::after, .pokemon-grid.six-column-groups > :nth-child(3)::after, .pokemon-grid.six-column-groups > :nth-child(4)::after, .pokemon-grid.six-column-groups > :nth-child(5)::after, .pokemon-grid.six-column-groups > :nth-child(6)::after { content: ''; position: absolute; top: 0; left: 0; right: 0; border-top: 3px dotted #f8d34f; }
 .pokemon-card.captured { background: linear-gradient(145deg, rgba(91, 126, 38, .9), rgba(28, 52, 25, .97)); }
+@media (max-width: 700px) {
+	.backdrop { position: absolute; min-height: 100%; }
+	.backdrop::after { display: none; }
+	.site-header { background: rgba(8, 5, 12, .96); backdrop-filter: none; }
+}
