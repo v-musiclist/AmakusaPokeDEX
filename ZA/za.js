@@ -5,12 +5,12 @@ const SHEETS = [
   { name: 'メガシンカ', source: 'mega' }
 ];
 
-const state = { pokemon: [], source: 'all', filter: 'all', query: '' };
+const state = { pokemon: [], source: 'all', filter: 'all', query: '', panelScale: 1 };
 const elements = {
   grid: document.querySelector('#pokemonGrid'), empty: document.querySelector('#emptyState'), error: document.querySelector('#errorState'),
   resultCount: document.querySelector('#resultCount'), updatedAt: document.querySelector('#updatedAt'),
   total: document.querySelector('#totalCount'), captured: document.querySelector('#capturedCount'), missing: document.querySelector('#missingCount'), backToTop: document.querySelector('#backToTop'),
-  rate: document.querySelector('#completionRate'), progressText: document.querySelector('#progressText'), progressBar: document.querySelector('#progressBar')
+  rate: document.querySelector('#completionRate'), progressText: document.querySelector('#progressText'), progressBar: document.querySelector('#progressBar'), panelSizeControl: document.querySelector('#panelSizeControl'), panelSizeToggle: document.querySelector('#panelSizeToggle'), panelSizeOptions: document.querySelector('#panelSizeOptions')
 };
 
 function parseCSV(csv) {
@@ -108,6 +108,14 @@ function render() {
   elements.empty.hidden = visible.length !== 0 || selectedPokemon().length === 0;
   const columns = elements.grid.children.length ? [...elements.grid.children].filter(item => item.offsetTop === elements.grid.children[0].offsetTop).length : 0;
   elements.grid.classList.toggle('six-column-groups', columns === 6);
+  document.body.classList.toggle('six-column-layout', columns === 6);
+  if (columns !== 6) state.panelScale = 1;
+  elements.grid.style.setProperty('--panel-scale', state.panelScale);
+  elements.panelSizeControl.hidden = columns !== 6;
+  if (columns !== 6) {
+    elements.panelSizeOptions.hidden = true;
+    elements.panelSizeToggle.setAttribute('aria-expanded', 'false');
+  }
 }
 
 function parseSheetRows(csv, source) {
@@ -157,7 +165,22 @@ document.querySelectorAll('.source-filter').forEach(button => button.addEventLis
 }));
 document.querySelector('#refreshButton').addEventListener('click', loadData);
 document.querySelector('#retryButton').addEventListener('click', loadData);
-function updateBackToTop() { elements.backToTop.hidden = window.scrollY === 0; }
+elements.panelSizeToggle.addEventListener('click', () => {
+  const isOpen = elements.panelSizeToggle.getAttribute('aria-expanded') === 'true';
+  elements.panelSizeToggle.setAttribute('aria-expanded', String(!isOpen));
+  elements.panelSizeOptions.hidden = isOpen;
+});
+elements.panelSizeOptions.querySelectorAll('[data-panel-scale]').forEach(button => button.addEventListener('click', () => {
+  state.panelScale = Number(button.dataset.panelScale);
+  elements.grid.style.setProperty('--panel-scale', state.panelScale);
+  elements.panelSizeOptions.hidden = true;
+  elements.panelSizeToggle.setAttribute('aria-expanded', 'false');
+}));
+function updateBackToTop() {
+  const isScrolled = window.scrollY > 0;
+  elements.backToTop.hidden = !isScrolled;
+  document.body.classList.toggle('page-scrolled', isScrolled);
+}
 window.addEventListener('scroll', updateBackToTop, { passive: true });
 elements.backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 window.addEventListener('resize', render);

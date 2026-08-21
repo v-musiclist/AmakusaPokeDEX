@@ -33,6 +33,13 @@ h1 span { display: block; color: transparent; -webkit-text-stroke: 1px #e5cfff; 
 .pokemon-link:hover .pokemon-image { transform: scale(1.08); filter: drop-shadow(0 8px 14px rgba(155,92,255,.65)); }
 .back-to-top { position: fixed; left: 18px; bottom: 18px; z-index: 10; width: 42px; height: 42px; border: 1px solid var(--line); color: var(--text); cursor: pointer; background: rgba(23, 14, 34, .9); font: 700 24px/1 'Barlow Condensed', sans-serif; box-shadow: 0 5px 16px rgba(0,0,0,.35); }
 .back-to-top:hover, .back-to-top:focus-visible { border-color: var(--violet); background: rgba(155,92,255,.25); outline: none; }
+.panel-size-control { position: fixed; right: 18px; bottom: 18px; z-index: 16; }
+.panel-size-control[hidden], .panel-size-options[hidden] { display: none !important; }
+.panel-size-toggle, .panel-size-options button { border: 1px solid var(--line); color: var(--text); cursor: pointer; background: rgba(23, 14, 34, .96); font: 700 12px 'Noto Sans JP', sans-serif; }
+.panel-size-toggle { padding: 10px 12px; }
+.panel-size-options { display: grid; gap: 4px; position: absolute; right: 0; bottom: calc(100% + 6px); min-width: 100%; padding: 5px; border: 1px solid var(--line); background: rgba(23, 14, 34, .98); box-shadow: 0 5px 16px rgba(0,0,0,.35); }
+.panel-size-options button { padding: 7px 10px; white-space: nowrap; }
+.panel-size-toggle:hover, .panel-size-toggle:focus-visible, .panel-size-options button:hover, .panel-size-options button:focus-visible { border-color: var(--violet); background: rgba(155,92,255,.25); outline: none; }
 @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 700px) { .header-inner, .main-content { padding-left: 18px; padding-right: 18px; }.header-meta { display: none; }.main-content { padding-top: 48px; }.dashboard { grid-template-columns: 1fr 1fr; margin-top: 48px; }.completion { grid-column: span 2; }.toolbar { flex-wrap: wrap; margin-top: 32px; }.search-box { flex: 1 1 100%; }.filter-tabs { flex: 1; }.filter { flex: 1; padding-left: 7px; padding-right: 7px; }.refresh-button { margin-left: 0; }.result-line { align-items: flex-start; gap: 12px; }.source-label { text-align: right; font-size: 9px; }.pokemon-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }.pokemon-card { min-height: 202px; } }
 .special-fire { background: #c85a3e; }
@@ -52,7 +59,16 @@ h1 span { display: block; color: transparent; -webkit-text-stroke: 1px #e5cfff; 
 .pokemon-grid.six-column-groups > :nth-child(30n + 31)::after, .pokemon-grid.six-column-groups > :nth-child(30n + 32)::after, .pokemon-grid.six-column-groups > :nth-child(30n + 33)::after, .pokemon-grid.six-column-groups > :nth-child(30n + 34)::after, .pokemon-grid.six-column-groups > :nth-child(30n + 35)::after, .pokemon-grid.six-column-groups > :nth-child(30n + 36)::after { content: ''; position: absolute; top: -8px; left: 0; right: 0; border-top: 3px dotted #f8d34f; }
 .pokemon-grid.six-column-groups > :nth-child(1)::after, .pokemon-grid.six-column-groups > :nth-child(2)::after, .pokemon-grid.six-column-groups > :nth-child(3)::after, .pokemon-grid.six-column-groups > :nth-child(4)::after, .pokemon-grid.six-column-groups > :nth-child(5)::after, .pokemon-grid.six-column-groups > :nth-child(6)::after { content: ''; position: absolute; top: 0; left: 0; right: 0; border-top: 3px dotted #f8d34f; }
 .pokemon-card.captured { background: linear-gradient(145deg, rgba(91, 126, 38, .9), rgba(28, 52, 25, .97)); }
+.pokemon-grid.six-column-groups { --panel-scale: 1; zoom: var(--panel-scale); }
+@media (min-width: 701px) {
+	body.six-column-layout .pokemon-grid.six-column-groups { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+	body.six-column-layout .dashboard-shell { position: sticky; top: 76px; z-index: 15; padding-bottom: 1px; background: var(--bg); }
+	body.six-column-layout .dashboard-shell .dashboard { margin-top: 0; }
+	body.six-column-layout.page-scrolled .dashboard-shell .toolbar { margin-top: 12px; }
+	body.six-column-layout.page-scrolled .dashboard-shell .result-line { margin: 8px 0 4px; }
+}
 @media (max-width: 700px) {
+	.panel-size-control { display: none; }
 	.backdrop { position: absolute; min-height: 100%; }
 	.backdrop::after { display: none; }
 	.site-header { background: rgba(8, 5, 12, .96); backdrop-filter: none; }
