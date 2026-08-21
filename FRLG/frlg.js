@@ -103,6 +103,7 @@ function render() {
   document.body.classList.toggle('six-column-layout', columns === 6);
   if (columns !== 6) state.panelScale = 1;
   elements.grid.style.setProperty('--panel-scale', state.panelScale);
+  elements.grid.style.setProperty('--panel-label-scale', state.panelScale === .5 ? .75 : 1);
   elements.panelSizeControl.hidden = columns !== 6;
   if (columns !== 6) {
     elements.panelSizeOptions.hidden = true;
@@ -153,6 +154,7 @@ elements.panelSizeToggle.addEventListener('click', () => {
 elements.panelSizeOptions.querySelectorAll('[data-panel-scale]').forEach(button => button.addEventListener('click', () => {
   state.panelScale = Number(button.dataset.panelScale);
   elements.grid.style.setProperty('--panel-scale', state.panelScale);
+  elements.grid.style.setProperty('--panel-label-scale', state.panelScale === .5 ? .75 : 1);
   elements.panelSizeOptions.hidden = true;
   elements.panelSizeToggle.setAttribute('aria-expanded', 'false');
 }));
