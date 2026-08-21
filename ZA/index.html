@@ -3,10 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0710">
   <title>あまくさZA図鑑</title>
-  <meta http-equiv="refresh" content="0; url=../za.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="za.css">
 </head>
 <body>
-  <p><a href="../za.html">ZA図鑑を開く</a></p>
+  <div class="backdrop" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./" aria-label="あまくさZA図鑑ホーム">
+        <span class="brand-mark">ZA</span>
+        <span><strong>あまくさ</strong><b>ZA図鑑</b></span>
+      </a>
+      <div class="header-meta"><span class="live-dot"></span><span id="updatedAt">データを読み込み中</span></div>
+    </div>
+  </header>
+  <main class="main-content">
+    <section class="hero">
+      <div class="eyebrow">POKÉDEX // LUMIOSE CITY</div>
+      <h1>あまくさ<span>ZA図鑑</span></h1>
+      <p>捕まえたポケモンを記録して、コンプリートを目指せ！</p>
+      <div class="progress-wrap" aria-label="捕獲進捗"><div class="progress-label"><span>CAPTURE PROGRESS</span><strong id="progressText">-- / --</strong></div><div class="progress-track"><div class="progress-bar" id="progressBar"></div></div></div>
+    </section>
+    <section class="dashboard" aria-label="図鑑の操作と統計">
+      <div class="stat"><span class="stat-icon">◈</span><div><small>登録数</small><strong id="totalCount">--</strong></div></div><div class="stat captured"><span class="stat-icon">✓</span><div><small>捕獲済み</small><strong id="capturedCount">--</strong></div></div><div class="stat missing"><span class="stat-icon">○</span><div><small>未捕獲</small><strong id="missingCount">--</strong></div></div><div class="completion"><small>COMPLETION</small><strong id="completionRate">--%</strong></div>
+    </section>
+    <section class="toolbar" aria-label="図鑑の絞り込み"><label class="search-box"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="名前やNoで検索" autocomplete="off"></label><div class="filter-tabs source-tabs" role="group" aria-label="表示するカテゴリ"><button class="filter source-filter active" data-source="all" type="button">すべて</button><button class="filter source-filter" data-source="miare" type="button">ミアレ</button><button class="filter source-filter" data-source="isekai" type="button">異次元</button><button class="filter source-filter" data-source="mega" type="button">メガシンカ</button></div><div class="filter-tabs" role="group" aria-label="表示フィルター"><button class="filter active" data-filter="all" type="button">すべて</button><button class="filter" data-filter="captured" type="button">捕獲済み</button><button class="filter" data-filter="missing" type="button">未捕獲</button></div><button class="refresh-button" id="refreshButton" type="button"><span>↻</span> 更新</button></section>
+    <div class="result-line"><span id="resultCount">データを読み込んでいます...</span><span class="source-label">SOURCE: GOOGLE SHEETS / ミアレ + 異次元 + メガシンカ</span></div><section class="pokemon-grid" id="pokemonGrid" aria-live="polite"></section><div class="empty-state" id="emptyState" hidden><div>⌁</div><strong>該当するポケモンが見つかりません</strong><span>検索条件やフィルターを変更してください。</span></div><div class="error-state" id="errorState" hidden><strong>データを取得できませんでした</strong><span>シートが公開設定になっているか確認して、もう一度お試しください。</span><button id="retryButton" type="button">再読み込み</button></div>
+  </main>
+  <footer>AMAKUSA ZA POKÉDEX <span>•</span> LIVE DATA</footer>
+  <script src="za.js"></script>
 </body>
 </html>
