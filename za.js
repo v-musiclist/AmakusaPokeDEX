@@ -1,7 +1,8 @@
 const SHEET_BASE_URL = 'https://docs.google.com/spreadsheets/d/1bvJ63Zb1deDCe_XOZDyX-Xz6OzZi7WDJ9NkWnrQh1Wk/gviz/tq?tqx=out:csv&sheet=';
 const SHEETS = [
   { name: 'ミアレ', source: 'miare' },
-  { name: '異次元', source: 'isekai' }
+  { name: '異次元', source: 'isekai' },
+  { name: 'メガシンカ', source: 'mega' }
 ];
 
 const state = { pokemon: [], source: 'all', filter: 'all', query: '' };
@@ -119,7 +120,7 @@ async function loadData() {
 
 document.querySelector('#searchInput').addEventListener('input', event => { state.query = event.target.value; render(); });
 document.querySelectorAll('.filter:not(.source-filter)').forEach(button => button.addEventListener('click', () => {
-  document.querySelectorAll('.filter').forEach(item => item.classList.remove('active'));
+  document.querySelectorAll('.filter:not(.source-filter)').forEach(item => item.classList.remove('active'));
   button.classList.add('active'); state.filter = button.dataset.filter; render();
 }));
 document.querySelectorAll('.source-filter').forEach(button => button.addEventListener('click', () => {
