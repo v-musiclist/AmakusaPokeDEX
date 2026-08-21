@@ -98,6 +98,8 @@ function render() {
     </article>`).join('');
   elements.resultCount.textContent = `${visible.length} 匹を表示`;
   elements.empty.hidden = visible.length !== 0 || state.pokemon.length === 0;
+  const columns = elements.grid.children.length ? [...elements.grid.children].filter(item => item.offsetTop === elements.grid.children[0].offsetTop).length : 0;
+  elements.grid.classList.toggle('six-column-groups', columns === 6);
 }
 
 async function loadData() {
@@ -138,5 +140,6 @@ document.querySelector('#retryButton').addEventListener('click', loadData);
 function updateBackToTop() { elements.backToTop.hidden = window.scrollY === 0; }
 window.addEventListener('scroll', updateBackToTop, { passive: true });
 elements.backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+window.addEventListener('resize', render);
 updateBackToTop();
 loadData();
