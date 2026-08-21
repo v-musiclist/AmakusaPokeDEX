@@ -5,7 +5,7 @@
 body { margin: 0; color: var(--text); background: var(--bg); font-family: 'Noto Sans JP', sans-serif; min-height: 100vh; }
 .backdrop { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at 75% 0%, rgba(119, 38, 162, .34), transparent 34%), radial-gradient(circle at 0% 68%, rgba(44, 51, 130, .2), transparent 30%), linear-gradient(135deg, #0b0710 0%, #130b1d 50%, #09080e 100%); }
 .backdrop::after { content: ''; position: absolute; inset: 0; opacity: .16; background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size: 44px 44px; mask-image: linear-gradient(to bottom, black, transparent 76%); }
-.site-header { border-bottom: 1px solid var(--line); background: rgba(8, 5, 12, .6); backdrop-filter: blur(12px); }
+.site-header { position: sticky; top: 0; z-index: 20; border-bottom: 1px solid var(--line); background: rgba(8, 5, 12, .6); backdrop-filter: blur(12px); }
 .header-inner, .main-content { max-width: 1180px; margin: auto; }
 .header-inner { height: 76px; display: flex; align-items: center; justify-content: space-between; padding: 0 28px; }
 .brand { display: flex; gap: 11px; align-items: center; text-decoration: none; color: var(--text); line-height: 1.05; }
@@ -28,5 +28,23 @@ h1 span { display: block; color: transparent; -webkit-text-stroke: 1px #e5cfff; 
 .pokemon-link:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
 .pokemon-image { transition: transform .2s ease, filter .2s ease; }
 .pokemon-link:hover .pokemon-image { transform: scale(1.08); filter: drop-shadow(0 8px 14px rgba(155,92,255,.65)); }
+.back-to-top { position: fixed; left: 18px; bottom: 18px; z-index: 10; width: 42px; height: 42px; border: 1px solid var(--line); color: var(--text); cursor: pointer; background: rgba(23, 14, 34, .9); font: 700 24px/1 'Barlow Condensed', sans-serif; box-shadow: 0 5px 16px rgba(0,0,0,.35); }
+.back-to-top:hover, .back-to-top:focus-visible { border-color: var(--violet); background: rgba(155,92,255,.25); outline: none; }
 @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 700px) { .header-inner, .main-content { padding-left: 18px; padding-right: 18px; }.header-meta { display: none; }.main-content { padding-top: 48px; }.dashboard { grid-template-columns: 1fr 1fr; margin-top: 48px; }.completion { grid-column: span 2; }.toolbar { flex-wrap: wrap; margin-top: 32px; }.search-box { flex: 1 1 100%; }.filter-tabs { flex: 1; }.filter { flex: 1; padding-left: 7px; padding-right: 7px; }.refresh-button { margin-left: 0; }.result-line { align-items: flex-start; gap: 12px; }.source-label { text-align: right; font-size: 9px; }.pokemon-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }.pokemon-card { min-height: 202px; } }
+.version-badge { position: absolute; top: 10px; right: 10px; z-index: 1; min-width: 28px; padding: 3px 6px; color: #fff; text-align: center; font: 800 12px 'Barlow Condensed', sans-serif; letter-spacing: .08em; }
+.version-fr { background: #b8324b; box-shadow: 2px 2px 0 rgba(255, 116, 138, .22); }
+.version-lg { background: #278f69; box-shadow: 2px 2px 0 rgba(98, 230, 181, .22); }
+.special-fire { background: #c85a3e; }
+.special-water { background: #327fb6; }
+.special-ice { background: #d9f7ff; color: #24566b; border-color: #a9e8f5; }
+.special-dawn { background: #69c7ed; color: #083b56; border-color: #a9e8f5; }
+.special-sun { background: #f2a51a; color: #5a2700; border-color: #ffd66b; }
+.special-light { background: #fff4b8; color: #6b5100; border-color: #fffbe0; }
+.special-thunder { background: #c29225; }
+.special-leaf { background: #3c9b69; }
+.special-dark { background: #211a2d; color: #e6d9f5; border-color: #55436d; }
+.special-moon { background: #7556a8; }
+.special-trade { background: rgba(127, 83, 18, .82); border: 1px solid rgba(255, 204, 92, .45); }
+.evolution-badge.special-affection, .version-badge.special-affection { background: #d15691; border-color: #f08ab8; }
+.special-out { background: rgba(127, 83, 18, .82); border: 1px solid rgba(255, 204, 92, .45); }

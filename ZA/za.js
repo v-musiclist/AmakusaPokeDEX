@@ -9,7 +9,7 @@ const state = { pokemon: [], source: 'all', filter: 'all', query: '' };
 const elements = {
   grid: document.querySelector('#pokemonGrid'), empty: document.querySelector('#emptyState'), error: document.querySelector('#errorState'),
   resultCount: document.querySelector('#resultCount'), updatedAt: document.querySelector('#updatedAt'),
-  total: document.querySelector('#totalCount'), captured: document.querySelector('#capturedCount'), missing: document.querySelector('#missingCount'),
+  total: document.querySelector('#totalCount'), captured: document.querySelector('#capturedCount'), missing: document.querySelector('#missingCount'), backToTop: document.querySelector('#backToTop'),
   rate: document.querySelector('#completionRate'), progressText: document.querySelector('#progressText'), progressBar: document.querySelector('#progressBar')
 };
 
@@ -40,9 +40,32 @@ function safeHttpUrl(value) {
   const url = cleanUrl(value);
   return /^https?:\/\//i.test(url) ? escapeHtml(url) : '';
 }
+function specialEvolutionClass(value) {
+  const evolution = normalise(value);
+  if (evolution.includes('ほのお')) return ' special-fire';
+  if (evolution.includes('みず')) return ' special-water';
+  if (evolution.includes('こおり')) return ' special-ice';
+  if (evolution.includes('めざめいし')) return ' special-dawn';
+  if (evolution.includes('たいよう')) return ' special-sun';
+  if (evolution.includes('ひかり')) return ' special-light';
+  if (evolution.includes('かみなり')) return ' special-thunder';
+  if (evolution.includes('リーフ')) return ' special-leaf';
+  if (evolution.includes('やみ')) return ' special-dark';
+  if (evolution.includes('なつき')) return ' special-affection';
+  if (evolution.includes('つき')) return ' special-moon';
+  if (evolution.includes('通信交換')) return ' special-trade';
+  return '';
+}
+function specialInfoBadge(value, specialEvolution) {
+  const info = String(value || '').trim();
+  if (!info) return '';
+  const normalisedInfo = normalise(info);
+  const infoClass = normalisedInfo === '対象外' ? `${specialEvolutionClass(specialEvolution)} special-out` : normalisedInfo.includes('fr') ? ' version-fr' : normalisedInfo.includes('lg') ? ' version-lg' : '';
+  return `<span class="version-badge${infoClass}" title="特殊情報: ${escapeHtml(info)}">${escapeHtml(info)}</span>`;
+}
 function evolutionBadge(value) {
   const method = String(value || '').trim();
-  return method ? `<span class="evolution-badge" title="特殊進化: ${escapeHtml(method)}">${escapeHtml(method)}</span>` : '';
+  return method ? `<span class="evolution-badge${specialEvolutionClass(method)}" title="特殊進化: ${escapeHtml(method)}">${escapeHtml(method)}</span>` : '';
 }
 
 function selectedPokemon() {
@@ -72,6 +95,7 @@ function render() {
   });
   elements.grid.innerHTML = visible.map((item, index) => `
     <article class="pokemon-card${item.captured ? ' captured' : ''}" style="animation-delay:${Math.min(index * 25, 300)}ms">
+      ${specialInfoBadge(item.specialInfo, item.specialEvolution)}
       <div class="number">NO. ${item.number}</div>
       ${item.infoUrl ? `<a class="pokemon-link" href="${item.infoUrl}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(item.name)}の情報を開く">` : ''}
         <img class="pokemon-image" src="${safeHttpUrl(item.image)}" alt="${escapeHtml(item.name)}" loading="lazy" onerror="this.style.visibility='hidden'">
@@ -90,12 +114,14 @@ function parseSheetRows(csv, source) {
   const column = name => headers.findIndex(header => header === name);
   const noIndex = column('No'), nameIndex = column('名前'), imageIndex = column('画像'), checkIndex = column('チェック');
   const infoUrlIndex = headers.findIndex(header => ['情報URL', 'URL', '情報 url'].includes(header));
+  const specialInfoIndex = column('特殊情報');
   const specialEvolutionIndex = column('特殊進化');
   if ([noIndex, nameIndex, imageIndex, checkIndex].some(index => index < 0)) throw new Error(`${source}シートに必要な列がありません`);
   return rows.map(row => ({
     source,
     number: row[noIndex] || '', name: row[nameIndex] || 'Unknown', image: row[imageIndex] || '',
     infoUrl: infoUrlIndex >= 0 ? safeHttpUrl(row[infoUrlIndex]) : '',
+    specialInfo: specialInfoIndex >= 0 ? row[specialInfoIndex] || '' : '',
     specialEvolution: specialEvolutionIndex >= 0 ? row[specialEvolutionIndex] || '' : '',
     captured: isCaptured(row[checkIndex])
   })).filter(item => item.number && item.name);
@@ -129,4 +155,8 @@ document.querySelectorAll('.source-filter').forEach(button => button.addEventLis
 }));
 document.querySelector('#refreshButton').addEventListener('click', loadData);
 document.querySelector('#retryButton').addEventListener('click', loadData);
+function updateBackToTop() { elements.backToTop.hidden = window.scrollY === 0; }
+window.addEventListener('scroll', updateBackToTop, { passive: true });
+elements.backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+updateBackToTop();
 loadData();
