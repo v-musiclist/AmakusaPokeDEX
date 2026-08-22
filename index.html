@@ -5,22 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b0710">
   <title>あまくさPOKÉDEX</title>
-  <style>
-    :root { color-scheme: dark; font-family: system-ui, sans-serif; }
-    body { display: grid; min-height: 100vh; margin: 0; place-items: center; color: #f5efff; background: #0b0710; }
-    main { padding: 32px; text-align: center; }
-    h1 { margin: 0 0 12px; }
-    p { color: #c0b6ca; }
-    a { display: inline-block; margin-top: 18px; padding: 12px 20px; color: #fff; background: #9b5cff; text-decoration: none; }
-    a:hover, a:focus-visible { background: #e548ad; }
-  </style>
+  <link rel="stylesheet" href="home.css">
 </head>
 <body>
-  <main>
-    <h1>あまくさPOKÉDEX</h1>
-    <p>図鑑を選択してください。</p>
-    <a href="./FRLG/">FRLG図鑑を開く</a>
-    <a href="./ZA/">ZA図鑑を開く</a>
+  <div class="background" aria-hidden="true"></div>
+  <header class="site-header"><div class="shell header-inner">
+    <a class="wordmark" href="./" aria-label="あまくさPOKÉDEXトップへ戻る"><span class="mark"></span><span><strong>AMAKUSA</strong><span>POKÉDEX</span></span></a>
+    <div class="header-note">LIVE DATABASE / 2026</div>
+  </div></header>
+  <main class="shell">
+    <section class="intro"><p class="eyebrow">PERSONAL COLLECTION // FIELD GUIDE</p><h1>あまくさ<span>POKÉDEX</span></h1><p>目指せポケモンマスター</p></section>
+    <section aria-labelledby="dex-heading"><div class="section-heading"><h2 id="dex-heading">図鑑を選択</h2><p>08 DATABASES AVAILABLE</p></div><div class="dex-grid">
+      <a class="dex-card national" href="./NATIONAL/" style="animation-delay:.4s"><span class="dex-code">N° 001+</span><span><h3>全国図鑑</h3><p>すべてのポケモンを一覧する</p></span><span class="arrow">↗</span></a>
+      <a class="dex-card" href="./FRLG/" style="animation-delay:.05s"><span class="dex-code">FRLG</span><span><h3>カントー図鑑(FRLG)</h3><p>カントー地方</p></span><span class="arrow">↗</span></a>
+      <a class="dex-card" href="./ZA/" style="animation-delay:.1s"><span class="dex-code">ZA</span><span><h3>ZA図鑑</h3><p>ミアレシティ</p></span><span class="arrow">↗</span></a>
+      <a class="dex-card" href="./SWSH/" style="animation-delay:.15s"><span class="dex-code">SwSh</span><span><h3>ガラル図鑑</h3><p>ガラル地方</p></span><span class="arrow">↗</span></a>
+      <a class="dex-card" href="./SV/" style="animation-delay:.2s"><span class="dex-code">SV</span><span><h3>パルデア図鑑</h3><p>パルデア地方</p></span><span class="arrow">↗</span></a>
+      <a class="dex-card" href="./BDSP/" style="animation-delay:.25s"><span class="dex-code">BDSP</span><span><h3>シンオウ図鑑</h3><p>シンオウ地方</p></span><span class="arrow">↗</span></a>
+      <a class="dex-card" href="./PLA/" style="animation-delay:.3s"><span class="dex-code">PLA</span><span><h3>ヒスイ図鑑</h3><p>ヒスイ地方</p></span><span class="arrow">↗</span></a>
+      <a class="dex-card" href="./LGPE/" style="animation-delay:.35s"><span class="dex-code">LGPE</span><span><h3>カントー図鑑(ピカブイ)</h3><p>カントー地方</p></span><span class="arrow">↗</span></a>
+    </div></section>
   </main>
+  <footer class="shell">AMAKUSA POKÉDEX <span>•</span> LIVE DATA</footer>
 </body>
 </html>
